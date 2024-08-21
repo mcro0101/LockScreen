@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace LockScreen
 {
@@ -26,6 +27,7 @@ namespace LockScreen
             
             SetLockScreenDetails("Welcome to the Custom Lock Screen", "Press OK to unlock", "C:\\Users\\s3d\\Desktop\\LockScreenV2\\LockScreen\\LockScreen\\Reference\\logo.png");
             this.KeyDown += new KeyEventHandler(MainWindow_KeyDown);
+            PromptForShellChanges();
         }
 
         public void SetLockScreenDetails(string title, string instructions, string logoPath)
@@ -39,6 +41,7 @@ namespace LockScreen
             }
         }
 
+
         //private void Window_KeyDown(object sender, KeyEventArgs e)
         //{
         //    if (e.Key == Key.Escape || e.Key == Key.System)
@@ -46,6 +49,8 @@ namespace LockScreen
         //        e.Handled = false; // Block system key handling
         //    }
         //}
+
+
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             // Check if Ctrl + U is pressed
@@ -72,6 +77,23 @@ namespace LockScreen
             {
                 // Prevent closing with other actions (e.g., Alt+F4)
                 e.Cancel = true;
+            }
+        }
+
+        private void PromptForShellChanges()
+        {
+            var result = MessageBox.Show("Would you like to set the custom Shell V2 for the Lock Screen? The system needs to restart for changes to take effect.",
+                                         "Set Custom Shell V2", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                // Replace with your command or script to set Shell V2
+                // Example: Process.Start("path_to_your_set_script.bat");
+
+                // Prompt the user to restart the computer
+                MessageBox.Show("The system needs to restart for changes to take effect.", "Restart Required", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                // Restart the system
+                Process.Start("shutdown", "/r /t 0");
             }
         }
 
