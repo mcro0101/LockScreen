@@ -1,0 +1,15 @@
+﻿<Window x:Class="LockScreen.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Lock Screen" 
+        Height="450" Width="800" 
+        WindowStyle="None" 
+        WindowState="Maximized" 
+        Topmost="True" 
+        ResizeMode="NoResize">
+    <Grid Background="Navy">
+        <Image Name="LogoImage" Source="logo.png" Width="200" Height="100" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+        <Label Name="TitleLabel" Content="Welcome to the Custom Lock Screen" FontSize="36" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Name="InstructionText" Text="Press OK to unlock" FontSize="24" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,50"/>
+    </Grid>
+</Window>
