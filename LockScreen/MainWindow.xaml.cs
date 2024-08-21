@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using System.IO;
+
 
 namespace LockScreen
 {
@@ -86,16 +88,38 @@ namespace LockScreen
                                          "Set Custom Shell V2", MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                // Replace with your command or script to set Shell V2
-                // Example: Process.Start("path_to_your_set_script.bat");
+                try
+                {
+                    // Get the path where the current executable is stored
+                    string exePath = AppDomain.CurrentDomain.BaseDirectory;
 
-                // Prompt the user to restart the computer
-                MessageBox.Show("The system needs to restart for changes to take effect.", "Restart Required", MessageBoxButton.OK, MessageBoxImage.Information);
+                    // Create the path for the PowerShell script
+                    string scriptPath = System.IO.Path.Combine(exePath, "Lockscreen.ps1");
 
-                // Restart the system
-                Process.Start("shutdown", "/r /t 0");
+                    // Check if the script file exists
+                    if (System.IO.File.Exists(scriptPath))
+                    {
+                        // Start the PowerShell script to set Shell V2
+                        Process.Start("powershell.exe", $"-ExecutionPolicy Bypass -File \"{scriptPath}\"");
+
+                        // Prompt the user to restart the computer
+                        MessageBox.Show("The system needs to restart for changes to take effect.", "Restart Required", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                        // Restart the system
+                        Process.Start("shutdown", "/r /t 0");
+                    }
+                    else
+                    {
+                        MessageBox.Show("The specified script file does not exist. Please check the file path and try again.", "File Not Found", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to set Shell V2: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
+
 
 
     }
